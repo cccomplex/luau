@@ -12,7 +12,7 @@ Utility:GetService({"Players"})
 Utility:GetService({"Players", "RunService"})
 ```
 
-### 2) `Utility:Connection(<Data>: table)
+### 2) `Utility:Connection(<Data>: table)`
 - Creates a "RBXScriptConnection" to a "RBXScriptSignal" that will run the callback given under a key value or an index value
 
 Usage:

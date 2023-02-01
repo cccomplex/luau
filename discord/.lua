@@ -1,8 +1,8 @@
 local Discord = {}
 
 _G.bit32 = bit32
-local Base64Encode = (syn and syn.crypt.base64.encode) or (crypt and crypt.base64encode) or loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/iskolbin/lbase64/master/base64.lua"))().encode
-local Request = (syn and syn.request) or (http and http.request) or http_request or request
+local Base64Encode = (syn and syn.crypt.base64.encode) or (fluxus and fluxus.crypt.base64.encode) or (crypt and crypt.base64encode) or loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/iskolbin/lbase64/master/base64.lua"))().encode
+local Request = (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request) or http_request or request
 
 function Send(Webhook, Method, Data, Headers)
     Headers = Headers or {
@@ -94,33 +94,11 @@ function Discord:Webhook(Webhook, Function, Data)
             Method = "POST"
         },
         ["Embed"] = {
-            Data = {
-                ["content"] = Data.Content or "",
-                ["username"] = Data.Name or "",
-                ["avatar_url"] = Data.Avatar or "",
-                ["embeds"] = {
-                    {
-                        ["author"] = {
-                            ["name"] = Data.Author or "",
-                            ["icon_url"] = Data.AuthorImage or ""
-                        },
-                        ["title"] = Data.Title or "",
-                        ["description"] = Data.Description or "",
-                        ["color"] = ReturnColor(Data.Color) or 0,
-                        ["footer"] = {
-                            ["text"] = Data.Footer or ""
-                        },
-                        ["fields"] = (Data.Fields ~= nil and ReturnFields(Data.Fields)) or {}
-                    }
-                }
-            },
+            Data = {},
             Method = "POST"
         },
         ["Update"] = {
-            Data = {
-                ["name"] = Data.Name or "",
-                ["avatar"] = (Data.Avatar ~= nil and ReturnAvatar(Data.Avatar)) or ""
-            },
+            Data = {},
             Method = "PATCH"
         },
         ["Delete"] = {
@@ -138,6 +116,105 @@ function Discord:Webhook(Webhook, Function, Data)
     }
 
     Function = string.upper(string.sub(Function:lower(), 1, 1)) .. string.sub(Function:lower(), 2, -1)
+    
+    if Function == "Embed" then
+        if Data.Content then
+            DataTypes[Function].Data["content"] = Data.Content
+        end
+        if Data.Name then
+            DataTypes[Function].Data["username"] = Data.Name
+        end
+        if Data.Avatar then
+            DataTypes[Function].Data["avatar_url"] = Data.Avatar
+        end
+        if Data.Content then
+            DataTypes[Function].Data["content"] = Data.Content
+        end
+        if Data.Name then
+            DataTypes[Function].Data["username"] = Data.Name
+        end
+        if Data.Author then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1]["author"] == nil then
+                DataTypes[Function].Data["embeds"][1]["author"] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["author"]["name"] = Data.Author
+        end
+        if Data.AuthorImage then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1]["author"] == nil then
+                DataTypes[Function].Data["embeds"][1]["author"] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["author"]["icon_url"] = Data.AuthorImage
+        end
+        if Data.Title then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["title"] = Data.Title
+        end
+        if Data.Description then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["description"] = Data.Description
+        end
+        if Data.Color then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["color"] = ReturnColor(Data.Color)
+        end
+        if Data.Footer then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1]["footer"] == nil then
+                DataTypes[Function].Data["embeds"][1]["footer"] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["footer"]["text"] = Data.Footer
+        end
+        if Data.Fields then
+            if DataTypes[Function].Data["embeds"] == nil then
+                DataTypes[Function].Data["embeds"] = {}
+            end
+            if DataTypes[Function].Data["embeds"][1] == nil then
+                DataTypes[Function].Data["embeds"][1] = {}
+            end
+            DataTypes[Function].Data["embeds"][1]["fields"] = ReturnFields(Data.Fields)
+        end
+    end
+    
+    if Function == "Update" then
+        if Data.Name then
+            DataTypes[Function].Data["name"] = Data.Name
+        end
+        if Data.Avatar then
+            DataTypes[Function].Data["avatar"] = ReturnAvatar(Data.Avatar)
+        end
+    end
 
     if not DataTypes[Function] then return end
 

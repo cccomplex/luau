@@ -131,6 +131,10 @@ function Discord:Webhook(URL, Type, Data)
             end
 
             WebhookData["embeds"][1]["title"] = Data.Title
+            
+            if Data.TitleUrl then
+                WebhookData["embeds"][1]["url"] = Data.TitleUrl
+            end
         end
         if Data.Description then
             if WebhookData["embeds"] == nil then
@@ -174,19 +178,10 @@ function Discord:Webhook(URL, Type, Data)
             end
 
             WebhookData["embeds"][1]["author"]["name"] = Data.Author
-        end
-        if Data.AuthorImage then
-            if WebhookData["embeds"] == nil then
-                WebhookData["embeds"] = {}
+            
+            if Data.AuthorImage then
+                WebhookData["embeds"][1]["author"]["icon_url"] = Data.AuthorImage
             end
-            if WebhookData["embeds"][1] == nil then
-                WebhookData["embeds"][1] = {}
-            end
-            if WebhookData["embeds"][1]["author"] == nil then
-                WebhookData["embeds"][1]["author"] = {}
-            end
-
-            WebhookData["embeds"][1]["author"]["icon_url"] = Data.AuthorImage
         end
         if Data.Footer then
             if WebhookData["embeds"] == nil then
@@ -200,6 +195,36 @@ function Discord:Webhook(URL, Type, Data)
             end
 
             WebhookData["embeds"][1]["footer"]["text"] = Data.Footer
+
+            if Data.FooterImage then
+                WebhookData["embeds"][1]["footer"]["icon_url"] = Data.FooterImage
+            end
+        end
+        if Data.Image then
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
+            end
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
+            end
+            if WebhookData["embeds"][1]["image"] == nil then
+                WebhookData["embeds"][1]["image"] = {}
+            end
+            
+            WebhookData["embeds"][1]["image"]["url"] = Data.Image
+        end
+        if Data.Thumbnail then
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
+            end
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
+            end
+            if WebhookData["embeds"][1]["thumbnail"] == nil then
+                WebhookData["embeds"][1]["thumbnail"] = {}
+            end
+            
+            WebhookData["embeds"][1]["thumbnail"]["url"] = Data.Image
         end
     end
 

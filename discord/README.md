@@ -26,12 +26,16 @@ Discord:Webhook("https://discord.com/api/webhook/webhook_token", "Embed", {
     Content = "Hello world!",
     Name = "Webhook #1",
     Avatar = "https://link.com/Avatar.jpg",
-    Author = "Author Name",
-    AuthorImage = "https://link.com/AuthorImage.png",
     Title = "Embed Title",
+    TitleUrl = "https://google.com/" -- Must have "Title" before adding this
     Description = "Embed Description",
-    Color = "FFFFFF",
+    Color = "FFFFFF", -- Works with strings ("0xFFFFFF", "FFFFFF"), hexadecimal integers (0xFFFFFF) and Color3 values (Color3.new(1, 1, 1), Color3.fromRGB(255, 255, 255)
+    Author = "Author Name",
+    AuthorImage = "https://link.com/AuthorImage.png", -- Must have "Author" before adding this
     Footer = "Footer Text",
+    FooterImage = "https://link.com/FooterImage.png", -- Must have "Footer" before adding this
+    Image = "https://link.com/Image.png",
+    Thumbnail = "https://link.com/Thumbnail.png",
     Fields = {
         {
             Name = "Field Name",

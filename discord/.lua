@@ -116,12 +116,6 @@ function Discord:Webhook(URL, Type, Data)
         if Data.Avatar then
             WebhookData["avatar_url"] = Data.Avatar
         end
-        if Data.Content then
-            WebhookData["content"] = Data.Content
-        end
-        if Data.Name then
-            WebhookData["username"] = Data.Name
-        end
         if Data.Title then
             if WebhookData["embeds"] == nil then
                 WebhookData["embeds"] = {}
@@ -155,16 +149,6 @@ function Discord:Webhook(URL, Type, Data)
             end
 
             WebhookData["embeds"][1]["color"] = ReturnColor(Data.Color)
-        end
-        if Data.Fields then
-            if WebhookData["embeds"] == nil then
-                WebhookData["embeds"] = {}
-            end
-            if WebhookData["embeds"][1] == nil then
-                WebhookData["embeds"][1] = {}
-            end
-            
-            WebhookData["embeds"][1]["fields"] = ReturnFields(Data.Fields)
         end
         if Data.Author then
             if WebhookData["embeds"] == nil then
@@ -224,7 +208,17 @@ function Discord:Webhook(URL, Type, Data)
                 WebhookData["embeds"][1]["thumbnail"] = {}
             end
             
-            WebhookData["embeds"][1]["thumbnail"]["url"] = Data.Image
+            WebhookData["embeds"][1]["thumbnail"]["url"] = Data.Thumbnail
+        end
+        if Data.Fields then
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
+            end
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
+            end
+            
+            WebhookData["embeds"][1]["fields"] = ReturnFields(Data.Fields)
         end
     end
 

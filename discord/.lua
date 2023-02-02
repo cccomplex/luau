@@ -96,7 +96,7 @@ function Discord:Webhook(URL, Type, Data)
         ["Check"] = "GET"
     }
     
-    Type = string.upper(string.sub(Function:lower(), 1, 1)) .. string.sub(Function:lower(), 2, -1)
+    Type = string.upper(string.sub(Type:lower(), 1, 1)) .. string.sub(Type:lower(), 2, -1)
 
     if not Types[Type] then return end
 

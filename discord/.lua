@@ -39,9 +39,10 @@ function Discord:Invite(Invite)
     end
 end
 
-function Discord:Webhook(Webhook, Function, Data)
+function Discord:Webhook(URL, Type, Data)
     Data = Data or {}
-    
+    local WebhookData = {}
+
     local function ReturnAvatar(Avatar)
         if Avatar == nil or Avatar == "" then return "" end
 
@@ -86,139 +87,132 @@ function Discord:Webhook(Webhook, Function, Data)
         return tonumber(Color)
     end
 
-    local DataTypes = {
-        ["Message"] = {
-            Data = {
-                ["content"] = Data.Content or ""
-            },
-            Method = "POST"
-        },
-        ["Embed"] = {
-            Data = {},
-            Method = "POST"
-        },
-        ["Update"] = {
-            Data = {},
-            Method = "PATCH"
-        },
-        ["Delete"] = {
-            Data = {},
-            Method = "DELETE"
-        },
-        ["Info"] = {
-            Data = {},
-            Method = "GET"
-        },
-        ["Check"] = {
-            Data = {},
-            Method = "GET"
-        }
+    local Types = {
+        ["Message"] = "POST",
+        ["Embed"] = "POST",
+        ["Update"] = "PATCH",
+        ["Delete"] = "DELETE",
+        ["Info"] = "GET",
+        ["Check"] = "GET"
     }
-
-    Function = string.upper(string.sub(Function:lower(), 1, 1)) .. string.sub(Function:lower(), 2, -1)
     
-    if Function == "Embed" then
+    Type = string.upper(string.sub(Function:lower(), 1, 1)) .. string.sub(Function:lower(), 2, -1)
+
+    if not Types[Type] then return end
+
+    if Type == "Message" then
         if Data.Content then
-            DataTypes[Function].Data["content"] = Data.Content
+            WebhookData["content"] = Data.Content
+        end
+    end
+
+    if Type == "Embed" then
+        if Data.Content then
+            WebhookData["content"] = Data.Content
         end
         if Data.Name then
-            DataTypes[Function].Data["username"] = Data.Name
+            WebhookData["username"] = Data.Name
         end
         if Data.Avatar then
-            DataTypes[Function].Data["avatar_url"] = Data.Avatar
+            WebhookData["avatar_url"] = Data.Avatar
         end
         if Data.Content then
-            DataTypes[Function].Data["content"] = Data.Content
+            WebhookData["content"] = Data.Content
         end
         if Data.Name then
-            DataTypes[Function].Data["username"] = Data.Name
-        end
-        if Data.Author then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
-            end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
-            end
-            if DataTypes[Function].Data["embeds"][1]["author"] == nil then
-                DataTypes[Function].Data["embeds"][1]["author"] = {}
-            end
-            DataTypes[Function].Data["embeds"][1]["author"]["name"] = Data.Author
-        end
-        if Data.AuthorImage then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
-            end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
-            end
-            if DataTypes[Function].Data["embeds"][1]["author"] == nil then
-                DataTypes[Function].Data["embeds"][1]["author"] = {}
-            end
-            DataTypes[Function].Data["embeds"][1]["author"]["icon_url"] = Data.AuthorImage
+            WebhookData["username"] = Data.Name
         end
         if Data.Title then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
             end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
             end
-            DataTypes[Function].Data["embeds"][1]["title"] = Data.Title
+
+            WebhookData["embeds"][1]["title"] = Data.Title
         end
         if Data.Description then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
             end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
             end
-            DataTypes[Function].Data["embeds"][1]["description"] = Data.Description
+            
+            WebhookData["embeds"][1]["description"] = Data.Description
         end
         if Data.Color then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
             end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
             end
-            DataTypes[Function].Data["embeds"][1]["color"] = ReturnColor(Data.Color)
-        end
-        if Data.Footer then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
-            end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
-            end
-            if DataTypes[Function].Data["embeds"][1]["footer"] == nil then
-                DataTypes[Function].Data["embeds"][1]["footer"] = {}
-            end
-            DataTypes[Function].Data["embeds"][1]["footer"]["text"] = Data.Footer
+
+            WebhookData["embeds"][1]["color"] = ReturnColor(Data.Color)
         end
         if Data.Fields then
-            if DataTypes[Function].Data["embeds"] == nil then
-                DataTypes[Function].Data["embeds"] = {}
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
             end
-            if DataTypes[Function].Data["embeds"][1] == nil then
-                DataTypes[Function].Data["embeds"][1] = {}
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
             end
-            DataTypes[Function].Data["embeds"][1]["fields"] = ReturnFields(Data.Fields)
+            
+            WebhookData["embeds"][1]["fields"] = ReturnFields(Data.Fields)
+        end
+        if Data.Author then
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
+            end
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
+            end
+            if WebhookData["embeds"][1]["author"] == nil then
+                WebhookData["embeds"][1]["author"] = {}
+            end
+
+            WebhookData["embeds"][1]["author"]["name"] = Data.Author
+        end
+        if Data.AuthorImage then
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
+            end
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
+            end
+            if WebhookData["embeds"][1]["author"] == nil then
+                WebhookData["embeds"][1]["author"] = {}
+            end
+
+            WebhookData["embeds"][1]["author"]["icon_url"] = Data.AuthorImage
+        end
+        if Data.Footer then
+            if WebhookData["embeds"] == nil then
+                WebhookData["embeds"] = {}
+            end
+            if WebhookData["embeds"][1] == nil then
+                WebhookData["embeds"][1] = {}
+            end
+            if WebhookData["embeds"][1]["footer"] == nil then
+                WebhookData["embeds"][1]["footer"] = {}
+            end
+
+            WebhookData["embeds"][1]["footer"]["text"] = Data.Footer
         end
     end
-    
+
     if Function == "Update" then
         if Data.Name then
-            DataTypes[Function].Data["name"] = Data.Name
+            WebhookData["name"] = Data.Name
         end
         if Data.Avatar then
-            DataTypes[Function].Data["avatar"] = ReturnAvatar(Data.Avatar)
+            WebhookData["avatar"] = ReturnAvatar(Data.Avatar)
         end
     end
 
-    if not DataTypes[Function] then return end
-
-    local RequestData = Send(Webhook, DataTypes[Function].Method, DataTypes[Function].Data)
+    local RequestData = Send(Webhook, Types[Type], WebhookData)
 
     if Function == "Info" then
         return (Data.InLua and game:GetService("HttpService"):JSONDecode(RequestData.Body)) or RequestData.Body

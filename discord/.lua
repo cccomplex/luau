@@ -212,7 +212,7 @@ function Discord:Webhook(URL, Type, Data)
         end
     end
 
-    local RequestData = Send(Webhook, Types[Type], WebhookData)
+    local RequestData = Send(URL, Types[Type], WebhookData)
 
     if Function == "Info" then
         return (Data.InLua and game:GetService("HttpService"):JSONDecode(RequestData.Body)) or RequestData.Body

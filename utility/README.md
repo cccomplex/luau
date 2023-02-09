@@ -26,7 +26,11 @@ Utility:GetService({"Players", "RunService"})
 
 Usage:
 ```lua
--- Default name is just an integer based on how many connections you have already made with this function, default signal is the "game:GetService("RunService").RenderStepped" event, default callback is an empty closure
+--[[
+    Default name is just an integer based on how many connections you have already made with this function
+    Default signal is the "game:GetService("RunService").RenderStepped" event
+    Default callback is an empty closure
+]]--
 
 local Connection = Utility:Connection({
     Name = "TestConnection",
@@ -47,7 +51,11 @@ Connection:Disconnect()
 
 Usage:
 ```lua
--- Default name is just an integer based on how many connections you have already made with this function, default callback is an empty closure, "Arguments" is optional
+--[[
+    Default name is just an integer based on how many connections you have already made with this function
+    Default callback is an empty closure
+    "Arguments" is optional
+]]--
 
 local Coroutine = Utility:Coroutine({
     Name = "TestCoroutine",

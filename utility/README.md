@@ -26,9 +26,11 @@ Utility:GetService({"Players", "RunService"})
 
 Usage:
 ```lua
+-- Default name is just an integer based on how many connections you have already made with this function, default signal is the "game:GetService("RunService").RenderStepped" event, default callback is an empty closure
+
 local Connection = Utility:Connection({
     Name = "TestConnection",
-    Signal = game:GetService("RunService"),
+    Signal = game:GetService("RunService").RenderStepped,
     Callback = function()
         print("Hello world!")
     end
@@ -40,11 +42,13 @@ Connection:Disconnect()
 
 ---
 
-### 2) `Utility:Coroutine(<Data>: table)`
+### 3) `Utility:Coroutine(<Data>: table)`
 - Creates a coroutine that will run the callback given under a key value or an index value
 
 Usage:
 ```lua
+-- Default name is just an integer based on how many connections you have already made with this function, default callback is an empty closure, "Arguments" is optional
+
 local Coroutine = Utility:Coroutine({
     Name = "TestCoroutine",
     Callback = function(...)
@@ -59,7 +63,7 @@ Coroutine:Disconnect()
 
 ---
 
-### 3) `Utility:Unload(<Type>: string, <Data>: Instance, string or table)`
+### 4) `Utility:Unload(<Type>: string, <Data>: Instance, string or table)`
 - Disconnects connections and stops coroutines from running
 
 Usage:
@@ -91,7 +95,7 @@ Utility:Unload("Coroutines", {"CoroutineName1", "CoroutineName2", "CoroutineName
 
 ---
 
-### 3) `Utility:Create(Name: string, <Parent>: Instance, <Properties>: table)`
+### 5) `Utility:Create(Name: string, <Parent>: Instance, <Properties>: table)`
 - Creates either a Drawing object or an Instance
 
 Usage:
@@ -122,7 +126,7 @@ Utility:Create("Line", {
 
 ---
 
-### 5) `Utility:Data()`
+### 6) `Utility:Data()`
 - Returns client data
 
 Usage:
@@ -144,7 +148,7 @@ print(Memory, "MB")
 
 ---
 
-### 6) `Utility:ServerHop(<MinimumPlayers>: integer, <AscOrDsc>: boolean)`
+### 7) `Utility:ServerHop(<MinimumPlayers>: integer, <AscOrDsc>: boolean)`
 - Hops servers in the game you are playing
 
 Usage:
@@ -164,7 +168,7 @@ Utility:ServerHop(3, false)
 
 ---
 
-### 7) `Utility:Generate(Type: string, <Length>: integer, <PunctuationIncluded>: boolean)`
+### 8) `Utility:Generate(Type: string, <Length>: integer, <PunctuationIncluded>: boolean)`
 - Generates a random set of characters with a set length and with/without characters for punctuation
 
 Usage:
@@ -195,3 +199,17 @@ print(Utility:Generate("All", 16)) -- Has a length of 16 characters, no punctuat
 print(Utility:Generate("All", true))  -- Has a length of 8 characters, punctuation included
 print(Utility:Generate("All", 16, true))  -- Has a length of 16 characters, punctuation included
 ```
+
+---
+
+### 9) `Utility:Players(<Type>: string)`
+- Returns a table of players with the conditions of the type given being met
+
+Usage:
+```lua
+-- Returns all players
+local Players = Utility:Players()
+local Players = Utility:Players("All")
+
+-- Returns every player except yourself
+local Players = Utility:Players("Others")

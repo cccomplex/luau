@@ -221,3 +221,26 @@ local Players = Utility:Players("All")
 
 -- Returns every player except yourself
 local Players = Utility:Players("Others")
+
+-- Returns every player that is your friend
+local Players = Utility:Players("Friends")
+
+-- Returns every player that isn't your friend
+local Players = Utility:Players("Non-Friends")
+
+-- Returns every player on your team
+local Players = Utility:Players("Team")
+
+-- Returns every player not on your team
+local Players = Utility:Players("Non-Team")
+```
+
+---
+
+### 10) `Utility:FindPlayer(Input: string)`
+- Returns a player by finding the input given within the player's "Name" or "DisplayName"
+
+Usage:
+```lua
+local Player = Utility:FindPlayer("InputHere")
+```

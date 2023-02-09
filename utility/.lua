@@ -1,7 +1,6 @@
 local Utility = {
     Connections = {},
-    Coroutines = {},
-    Player = game:GetService("Players").LocalPlayer
+    Coroutines = {}
 }
 
 function Utility:GetService(...)
@@ -343,82 +342,6 @@ function Utility:Generate(Type, Length, PunctuationIncluded)
     end
 
     return Output
-end
-
-function Utility:Players(Type)
-    local Types = {
-        ["All"] = function()
-            return self:GetService("Players"):GetPlayers()
-        end,
-        ["Others"] = function()
-            local Players = {}
-            for _, Player in ipairs(self:GetService("Players"):GetPlayers()) do
-                if Player ~= self.Player then
-                    Players[table.getn(Players) + 1] = Player
-                end
-            end
-            return Players
-        end,
-        ["Friends"] = function()
-            local Players = {}
-            for _, Player in ipairs(self:GetService("Players"):GetPlayers()) do
-                if Player:IsFriendsWith(self.Player.UserId) then
-                    Players[table.getn(Players) + 1] = Player
-                end
-            end
-            return Players
-        end,
-        ["Non-Friends"] = function()
-            local Players = {}
-            for _, Player in ipairs(self:GetService("Players"):GetPlayers()) do
-                if not Player:IsFriendsWith(self.Player.UserId) and Player ~= self then
-                    Players[table.getn(Players) + 1] = Player
-                end
-            end
-            return Players
-        end,
-        ["Team"] = function()
-            local Players = {}
-            for _, Player in ipairs(self:GetService("Players"):GetPlayers()) do
-                if Player.TeamColor == self.Player.TeamColor then
-                    Players[table.getn(Players) + 1] = Player
-                end
-            end
-            return Players
-        end,
-        ["Non-Team"] = function()
-            local Players = {}
-            for _, Player in ipairs(self:GetService("Players"):GetPlayers()) do
-                if not (Player.TeamColor == self.Player.TeamColor) then
-                    Players[table.getn(Players) + 1] = Player
-                end
-            end
-            return Players
-        end,
-    }
-    
-    if Type then
-        for ReturnType, Callback in next, Types do
-            if Type:lower() == ReturnType:gsub("%-", ""):lower() then
-                return Callback()
-            end
-        end
-    else
-        return Types["All"]()
-    end
-end
-
-function Utility:FindPlayer(Input)
-    for _, Player in ipairs(self:Players("All")) do
-        if Player ~= self.Player then
-            local Name, DisplayName = Player.Name:lower(), Player.DisplayName:lower()
-            Input = Input:lower()
-
-            if Name:find(Input) or DisplayName:find(Input) then
-                return Player
-            end
-        end
-    end
 end
 
 return Utility

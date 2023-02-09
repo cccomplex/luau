@@ -1,4 +1,4 @@
-# Utility Documentation
+# Utility Library Documentation
 ##### `no <>` = Necessary, `<>` = Optional
 
 ### 1) `Utility:GetService(ServiceNames: table or string(s))`
@@ -206,41 +206,4 @@ print(Utility:Generate("All")) -- Has a length of 8 characters, no punctuation i
 print(Utility:Generate("All", 16)) -- Has a length of 16 characters, no punctuation included
 print(Utility:Generate("All", true))  -- Has a length of 8 characters, punctuation included
 print(Utility:Generate("All", 16, true))  -- Has a length of 16 characters, punctuation included
-```
-
----
-
-### 9) `Utility:Players(<Type>: string)`
-- Returns a table of players with the conditions of the type given being met
-
-Usage:
-```lua
--- Returns all players
-local Players = Utility:Players()
-local Players = Utility:Players("All")
-
--- Returns every player except yourself
-local Players = Utility:Players("Others")
-
--- Returns every player that is your friend
-local Players = Utility:Players("Friends")
-
--- Returns every player that isn't your friend
-local Players = Utility:Players("Non-Friends")
-
--- Returns every player on your team
-local Players = Utility:Players("Team")
-
--- Returns every player not on your team
-local Players = Utility:Players("Non-Team")
-```
-
----
-
-### 10) `Utility:FindPlayer(Input: string)`
-- Returns a player by finding the input given within the player's "Name" or "DisplayName"
-
-Usage:
-```lua
-local Player = Utility:FindPlayer("InputHere")
 ```

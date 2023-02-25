@@ -34,7 +34,7 @@ local PlayerList = Players:Get("Non-Team")
 Usage:
 ```lua
 -- Finding a specific player in the game via part of their Name/DisplayName
-local Player = Players:Find("Player", "inp")
+local Player = Players:Find("inputhere")
 
 -- Finding the closest player in the game
 local Player, Distance = Players:Find("Closest")

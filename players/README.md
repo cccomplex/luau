@@ -1,6 +1,6 @@
 # Players Library Documentation
 ##### `no <>` = Necessary, `<>` = Optional
-
+--
 ### 1) `Players:Get(<Type>: string)`
 - Returns a table of players with the conditions of the type given being met
 

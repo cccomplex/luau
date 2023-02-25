@@ -1,6 +1,6 @@
 local Players = {
     Player = game:GetService("Players").LocalPlayer
-}--
+}
 
 function Players:Get(Type)
     local Types = {

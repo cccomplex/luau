@@ -33,18 +33,18 @@ local PlayerList = Players:Get("Non-Team")
 
 Usage:
 ```lua
--- Findind a specific player in the game via part of their Name/DisplayName
+-- Finding a specific player in the game via part of their Name/DisplayName
 local Player = Players:Find("Player", "inp")
 
--- Findind the closest player in the game
-local Player = Players:Find("Closest")
+-- Finding the closest player in the game
+local Player, Distance = Players:Find("Closest")
 
--- Findind the farthest player in the game
-local Player = Players:Find("Farthest")
+-- Finding the farthest player in the game
+local Player, Distance = Players:Find("Farthest")
 
--- Findind the newest player in the game
-local Player = Players:Find("Newest")
+-- Finding the newest player in the game
+local Player, Age = Players:Find("Newest")
 
--- Findind the oldest player in the game
-local Player = Players:Find("Oldest")
+-- Finding the oldest player in the game
+local Player, Age = Players:Find("Oldest")
 ```

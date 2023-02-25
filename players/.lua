@@ -75,22 +75,8 @@ function Players:Get(Type)
     end
 end
 
-function Players:Find(Type, Input)
+function Players:Find(Input)
     local Types = {
-        ["Player"] = function()
-            if Input then
-                for _, Player in ipairs(self:Get("All")) do
-                    if Player ~= self.Player then
-                        local Name, DisplayName = Player.Name:lower(), Player.DisplayName:lower()
-                        Input = Input:lower()
-            
-                        if Name:find(Input) or DisplayName:find(Input) then
-                            return Player
-                        end
-                    end 
-                end
-            end
-        end,
         ["Closest"] = function()
             local Distance = math.huge
             local Target = nil
@@ -117,7 +103,7 @@ function Players:Find(Type, Input)
                 end
             end
 
-            return Target
+            return Target, Distance
         end,
         ["Farthest"] = function()
             local Distance = 0
@@ -145,7 +131,7 @@ function Players:Find(Type, Input)
                 end
             end
 
-            return Target
+            return Target, Distance
         end,
         ["Newest"] = function()
             local Age = math.huge
@@ -160,7 +146,7 @@ function Players:Find(Type, Input)
                 end
             end
 
-            return Target
+            return Target, Age
         end,
         ["Oldest"] = function()
             local Age = 0
@@ -175,15 +161,25 @@ function Players:Find(Type, Input)
                 end
             end
 
-            return Target
+            return Target, Age
         end
     }
 
-    if Type then
+    if Input then
         for ReturnType, Callback in next, Types do
-            if Type:lower() == ReturnType:gsub("%-", ""):lower() then
+            if Input:lower() == ReturnType:gsub("%-", ""):lower() then
                 return Callback()
             end
+        end
+        for _, Player in ipairs(self:Get("All")) do
+            if Player ~= self.Player then
+                local Name, DisplayName = Player.Name:lower(), Player.DisplayName:lower()
+                Input = Input:lower()
+    
+                if Name:find(Input) or DisplayName:find(Input) then
+                    return Player
+                end
+            end 
         end
     end
 end

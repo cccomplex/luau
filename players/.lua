@@ -2,7 +2,7 @@ local Players = {
     Player = game:GetService("Players").LocalPlayer
 }
 
-function Players:Get(Type)
+function Players:Get(Type, Self)
     local Types = {
         ["All"] = function()
             return game:GetService("Players"):GetPlayers()
@@ -26,6 +26,10 @@ function Players:Get(Type)
                     Output[table.getn(Output) + 1] = Player
                 end
             end
+            
+            if Self then
+                Output[table.getn(Output) + 1] = self.Player
+            end
 
             return Output
         end,
@@ -33,9 +37,13 @@ function Players:Get(Type)
             local Output = {}
 
             for _, Player in ipairs(game:GetService("Players"):GetPlayers()) do
-                if not Player:IsFriendsWith(self.Player.UserId) and Player ~= self then
+                if not Player:IsFriendsWith(self.Player.UserId) then
                     Output[table.getn(Output) + 1] = Player
                 end
+            end
+            
+            if not Self then
+                table.remove(Output, table.find(Output.Player))
             end
 
             return Output
@@ -48,6 +56,10 @@ function Players:Get(Type)
                     Output[table.getn(Output) + 1] = Player
                 end
             end
+            
+            if not Self then
+                table.remove(Output, table.find(Output, self.Player))
+            end
 
             return Output
         end,
@@ -58,6 +70,10 @@ function Players:Get(Type)
                 if not (Player.TeamColor == self.Player.TeamColor) then
                     Output[table.getn(Output) + 1] = Player
                 end
+            end
+            
+            if Self then
+                Output[table.getn(Output) + 1] = self.Player
             end
             
             return Output

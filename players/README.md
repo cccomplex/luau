@@ -1,8 +1,8 @@
 # Players Library Documentation
 ##### `no <>` = Necessary, `<>` = Optional
 
-### 1) `Players:Get(<Type>: string)`
-- Returns a table of players with the conditions of the type given being met
+### 1) `Players:Get(<Type>: string, <Self>: boolean)`
+- Returns a table of players with the conditions given being met
 
 Usage:
 ```lua
@@ -15,21 +15,25 @@ local PlayerList = Players:Get("Others")
 
 -- Returns every player that is your friend
 local PlayerList = Players:Get("Friends")
+local PlayerList = Players:Get("Friends", true) -- Returns yourself in the output
 
 -- Returns every player that isn't your friend
 local PlayerList = Players:Get("Non-Friends")
+local PlayerList = Players:Get("Non-Friends", false) -- Does not return yourself in the output
 
 -- Returns every player on your team
 local PlayerList = Players:Get("Team")
+local PlayerList = Players:Get("Team", false) -- Does not return yourself in the output
 
 -- Returns every player not on your team
 local PlayerList = Players:Get("Non-Team")
+local PlayerList = Players:Get("Non-Team", true) -- Returns yourself in the output
 ```
 
 ---
 
 ### 2) `Players:Find(Type: string, <Input>: string)`
-- Returns a player with the conditions of the type given being met or by finding the input given within the player's "Name" or "DisplayName"
+- Returns a player with the conditions given being met or by finding the input given within the player's "Name" or "DisplayName"
 
 Usage:
 ```lua

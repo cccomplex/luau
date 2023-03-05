@@ -1,4 +1,4 @@
-# Players Library Documentation
+# Documentation
 ##### `no <>` = Necessary, `<>` = Optional
 
 ### 1) `Players:Get(<Type>: string, <Self>: boolean)`

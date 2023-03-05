@@ -1,4 +1,4 @@
-# Utility Library Documentation
+# Documentation
 ##### `no <>` = Necessary, `<>` = Optional
 
 ### 1) `Utility:GetService(ServiceNames: table or string(s))`

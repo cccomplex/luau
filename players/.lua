@@ -43,7 +43,7 @@ function Players:Get(Type, Self)
             end
             
             if not Self then
-                table.remove(Output, table.find(Output.Player))
+                table.remove(Output, table.find(Output, self.Player))
             end
 
             return Output
@@ -82,7 +82,7 @@ function Players:Get(Type, Self)
     
     if Type then
         for ReturnType, Callback in next, Types do
-            if Type:lower() == ReturnType:gsub("%-", ""):lower() then
+            if Type:gsub("%-", ""):lower() == ReturnType:gsub("%-", ""):lower() then
                 return Callback()
             end
         end

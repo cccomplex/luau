@@ -1,4 +1,4 @@
-# Discord Library Documentation
+# Documentation
 ##### `no <>` = Necessary, `<>` = Optional
 
 ### 1) `Discord:Invite(Invite: string)`
